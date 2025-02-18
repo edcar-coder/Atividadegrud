@@ -1,0 +1,45 @@
+### Rota para verificar os hospedes
+GET http:/localhost:/3000/hospedes
+
+
+
+### Rota criar nova resrva de hotel
+POST http://localhost:3000/hospedes
+Content-Type: application/json
+{
+     "id":"1",
+    "hospede":"Junin Barbosa 25gb",
+    "quarto":2025
+}
+
+###
+
+### Rota verificar hospdede pelo id
+GET http://localhost:3000/hospede/1
+Content-Type: application/json
+
+###
+
+### Rota editar hospede PUT
+PUT http://localhost:3000/hospede/1
+Content-Type: application/json
+
+
+{
+    "novoHospede": "Barbose Junior",
+    "novoQuarto": 2100
+}
+
+###
+
+
+###DELETE - DELETAR OS Hospedes
+DELETE http://localhost:3000/hospedes/1
+Content-Type: application/json
+
+
+### 
+
+### DELETE -Excluido todos os hospedes
+DELETE http://localhost:3000/hospedes
+Content-Type:application/json
