@@ -1,13 +1,13 @@
 
 const express = require('express')
-const ClienteController = require('../controllers/index')
+const HospedeController = require('../controllers/index')
 
 const router = express.Router()
-router.post("/aluno", ClienteController.criar)
-router.get("/aluno", ClienteController.listarTodos)
-router.put("/aluno/:matricula", ClienteController.editar)
-router.get("/aluno/:matricula", ClienteController.listarPorMatricula)
-router.delete("/aluno/:matricula", ClienteController.excluirPorMatricula)
-router.delete("/aluno", ClienteController.excluirTodos)
+router.post("/hospede", HospedeController.criar)
+router.get("/hospede", HospedeController.listarTodos)
+router.put("/hospede/:id", HospedeController.editar)
+router.get("/hospede/:id", HospedeController.listarPorid)
+router.delete("/hospede/:id", HospedeController.excluirPorId)
+router.delete("/hospede", HospedeController.excluirTodos)
 
 module.exports = router;

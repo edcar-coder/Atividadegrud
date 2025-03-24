@@ -1,43 +1,43 @@
 const  { pool }  = require('../../../config/database')
 
-class ClienteModel {
-    static async criar(matricula, nome, email, senha){
-           const dados = [matricula,nome,email,senha]
-           const consulta = `insert into cliente(matricula,nome,email,senha) values ($1, $2, $3, $4) returning*`
-           const novoCliente = await pool.query(consulta, dados)
-           return novoCliente.rows
+class HospedeModel {
+    static async criar (id,hospede, quarto, dataCheckin, dataCheckout, status){
+           const dados = [id, hospede, quarto, dataCheckin, dataCheckout, status]
+           const consulta = `insert into reserva(id, hospede, quarto, dataCheckin, dataCheckout, status) values ($1, $2, $3, $4, $5, $6) returning *`
+           const novoHospede = await pool.query(consulta, dados)
+           return novoHospede.rows
     }
-    static async editar(matricula, nome, email, senha){
-         const dados = (nome,email,senha,matricula)
-         const consulta = `update cliente set nome = $2, email = $3, senha = $4 where matricula = $1 returning*`;
-         const clienteAtualizado = await pool.query(consulta, dados)
-         return clienteAtualizado.rows
+    static async editar(id, hospede, quarto, dataCheckin, dataCheckout, status){
+         const dados = (id, hospede, quarto, dataCheckin, dataCheckout, status)
+         const consulta = `update hospede set status = $2, datacheckin = $3, quarto  = $4 where id = $1 returning*`;
+         const hospedeAtualizado = await pool.query(consulta, dados)
+         return hospedeAtualizado.rows
     }
     static async listar(){
-       const consulta = `select*from aluno`
-       const clientes = await pool.query(consulta)
-       return clientes.rows
+       const consulta = `select * from reserva`
+       const hospedes = await pool.query(consulta)
+       return hospedes.rows
     }
-    static async listarPorMatricula(matricula){
-       const dados =[matricula]
-       const consulta = `select * from cliente where matricula = $1`
-       const cliente = await pool.query(consulta,dados)
-       return cliente.rows
+    static async listarPorid(id){
+       const dados =[id]
+       const consulta = `select * from reserva where id = $1`
+       const hospede = await pool.query(consulta,dados)
+       return hospede.rows
 
     }
 
-    static async excluirPorMatricula(matricula){
-        const dados = [matricula]
-        const consulta =  `delete from aluno where matricula = $1`
-        await pool.query(consulta,dados)
+    static async excluirPorid(id){
+        const dados = [id]
+        const consulta =  `delete from hospede where id = $1`
+        await pool.query(consulta, dados)
 
     }
     static async excluirTodos(){
-       const consulta = `delete from cliente `
+       const consulta = `delete from hospede`
        await pool.query(consulta)
 
     }
 
 }
 
-module.exports =    CclienteModel;
+module.exports = HospedeModel;

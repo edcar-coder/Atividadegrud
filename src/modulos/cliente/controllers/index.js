@@ -1,83 +1,83 @@
-const ClienteModel = require('../models/index');
+const HospedeModel = require('../models/index');
 
-class ClienteModelController{
+class HospedeModelController{
     static async criar(registro, consulta){
       try {
-        const {id, cliente, quarto, dataChekin, dataCheckout, status} = registro.body
-        if(!id || !cliente || !quarto || !dataChekin || !dataCheckout || !status){
+        const { id, hospede, quarto, dataCheckin, dataCheckout, status} = registro.body
+        if(!id|| !hospede || !quarto || !dataCheckin || !dataCheckout || !status){
           return  consulta.status(400).json({mensagem: "Todos os campos devem ser preenchidos."}); 
         }
-        const novoAluno = await ClienteModel.criar(id, cliente, quarto, dataChekin, dataCheckout, status)
-        consulta.status(201).json({mensagem: "Cliente criado com sucesso",cliente: novoCliente})
+        const novoHospede = await HospedeModel.criar(id, hospede, quarto, dataCheckin, dataCheckout, status)
+        consulta.status(201).json({mensagem: "Hospede criado com sucesso",hospede: novoHospede})
       } catch (error) {
-        consulta.status(500).json({mensagem: "Erro ao adicioanar novo cliente",erro: error.message});
+        consulta.status(500).json({mensagem: "Erro ao adicioanar novo hospede",erro: error.message});
       }
     }
     static async editar(registro, consulta){
       try {
-        const id = registro.params.matricula
-        const {nome, email, senha} = registro.body
-        if(!nome || !email || !senha){
+        const Id = registro.params.id
+        const {id, hospede, dataCheckin} = registro.body
+        if(!Id || !hospede || !dataCheckin){
           return consulta.status(400).json({mensagem: "Todos os campos devem ser preenchidos"})
         }
-        const aluno = await ClienteModel.editar(id, cliente, quarto,)
-        if(aluno.length === 0){
-          return resposta.status(400).json({mensagem: "Aluno não encontrado"})
+        const hospedes = await HospedeModel.editar(id, hospede)
+        if(hospedes.length === 0){
+          return consulta.status(400).json({mensagem: "Hospede não encontrado"})
         }
-        consulta.status(200).json({mensagem: "Cliente editado com sucesso", cliente: cliente});
+        consulta.status(200).json({mensagem: "Hospede editado com sucesso", hospede: hospede});
       } catch (error) {
-        consulta.status(500).json({mensagem: "Erro ao editar cliente"});
+        consulta.status(500).json({mensagem: "Erro ao editar hospede",erro: error.message});
         
       }
 
     }
     static async listarTodos(registro, consulta){
         try {
-            const alunos = await ClienteModel.listar()
-            if(alunos.length === 0){
-                return consulta.status(400).json({mensagem: "Não existe clientes a serem exibidos"});
+            const hospedes = await HospedeModel.listar()
+            if(hospedes.length === 0){
+                return consulta.status(400).json({mensagem: "Não existe hospedes a serem exibidos"});
               
             }
-            consulta.status(200).json(alunos)
+            consulta.status(200).json(hospedes)
         } catch (error) {
-            consulta.status(500).json({mensagem: "Erro ao listar os Clientes"});
+            consulta.status(500).json({mensagem: "Erro ao listar os Hospedes", erro: error.message});
             
         }
     }
-    static async listarPorMatricula(registro, consulta){
+    static async listarPorid(registro, consulta){
        try {
-        const matricula = registro.params.matricula
-        const cliente = await AlunoModel.listarPorId(matricula)
-        if(!cliente){
-            return consulta.status(400).json({mensagem: "Cliente nao encontrado"});
+        const id = registro.params.id
+        const hospede = await HospedeModel.listarPorId(id)
+        if(!hospede){
+            return consulta.status(400).json({mensagem: "Hospede nao encontrado"});
         }
-        consulta.status(200).json(cliente);
+        consulta.status(200).json(hospede);
        } catch (error) {
-         return  consulta.status(500).json({mensagem: "Erro ao buscar Cliente pela matricula"})
+         return  consulta.status(500).json({mensagem: "Erro ao buscar hospede pela id",erro: error.message})
        }
     } 
     static async excluirTodos(registro, consulta){
       try {
         
-        await ClienteModel.excluirTodos()
-        consulta.status(200).json({mensagem: "Todos os clientes excluidos com sucesso"})
+        await HospedeModel.excluirTodos()
+        consulta.status(200).json({mensagem: "Todos os hospedes excluidos com sucesso"})
       } catch (error) {
-        consulta.status(500).json({mensagem: "Erro ao excluir todos Clientes"})
+        consulta.status(500).json({mensagem: "Erro ao excluir todos hospedes",erro: error.message})
       }
     }
-    static async excluirPorMatricula(registro, consulta){
+    static async excluirPorId(registro, consulta){
       try {
-        const matricula = registro.params.matricula
-        const aluno = await ClienteModel.listarPorMatricula(matricula);
-        if(aluno.length == 0) {
-          return consulta.status(400).json({mensagem:"Aluno não encontrado"})
+        const id = registro.params.id
+        const hospede = await HospedeModel.listarPorId(id);
+        if(hospede.length == 0) {
+          return consulta.status(400).json({mensagem:"Hospede não encontrado"})
         }
-        await ClienteModel.excluirPorMatricula(matricula)
-        consulta.status(200).json({mensagem: "Cliente excluido com sucesso"})
+        await HospedeModel.excluirPorId(id)
+        consulta.status(200).json({mensagem: "Hospede excluido com sucesso"})
       } catch (error) {
-        consulta.status(500).json({mensagem: "Erro ao exluir cliente", erro: error.message})
+        consulta.status(500).json({mensagem: "Erro ao exluir hospede", erro: error.message})
       }
     }
 }
 
-module.exports = ClienteController;
+module.exports = HospedeModelController;
